@@ -111,7 +111,11 @@ with open(old_rel_file_path, "r") as csv_file:
         output_file.write(f"{row[5]},")  # Total Orders
         output_file.write(",")  # Note
         output_file.write("no,")  # Tax Exempt
-        output_file.write(f'"Last Active {row[2]},Sign Up {row[3]}"')  # Tags
+        
+        if row[3]:
+            output_file.write(f'"Last Active: {row[2]},Sign Up: {row[3]}"')  # Tags
+        else:
+            output_file.write(f'Last Active: {row[2]}')  # Tags
 
         output_file.write("\n")
         
