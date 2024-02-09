@@ -28,9 +28,6 @@ Yvonne	Lewis'''.split(" ")[0]
 
 fake_names = re.split("\t|\n", fake_names)[1:]
 
-print(fake_names)
-
-
 script_directory = os.path.dirname(os.path.abspath(__file__))
 
 # this database is only for testing, it is not a real db
@@ -91,12 +88,19 @@ with open(old_rel_file_path, "r") as csv_file:
         output_file.write(" ,")  # Customer ID
         output_file.write(f"{first_name},")  # First name
         output_file.write(f"{last_name},")  # Last name
-        output_file.write(f"{email},")  # Email
+        output_file.write(f"{row[4]},")  # Email
         output_file.write("yes,")  # Accepts Email Marketing
         output_file.write(",")  # Default Address Company
-        output_file.write(",")  # Default Address Address1
+
+        # address correction
+        if "," in row[9]:
+            address = " ".join(row[9].split(" ")[1:]).replace(",", " ")
+            output_file.write(f"{address},")  # Default Address Address1
+        else:
+            output_file.write(",")  # Default Address Address1
+
         output_file.write(",")  # Default Address Address2
-        output_file.write(f"{row[9]},")  # Default Address City
+        output_file.write(f"{row[9][:1]},")  # Default Address City
         output_file.write(f"{row[10]},")  # Default Address Province Code
         output_file.write(f"{row[8]},")  # Default Address Country Code
         output_file.write(f"{row[11]},")  # Default Address Zip
@@ -107,7 +111,7 @@ with open(old_rel_file_path, "r") as csv_file:
         output_file.write(f"{row[5]},")  # Total Orders
         output_file.write(",")  # Note
         output_file.write("no,")  # Tax Exempt
-        output_file.write(f'"Last Active {row[2]},Sign Up {row[3]}",')  # Tags
+        output_file.write(f'"Last Active {row[2]},Sign Up {row[3]}"')  # Tags
 
         output_file.write("\n")
         
